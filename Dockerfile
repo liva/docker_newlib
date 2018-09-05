@@ -27,6 +27,7 @@ RUN set -x \
  && apt update \
  && apt install -y \
                 build-essential \
+		gdb \
  && apt clean \
  && rm -rf /var/lib/apt/lists/* \
  && apt -qy autoremove
