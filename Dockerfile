@@ -20,4 +20,14 @@ RUN env PATH="`pwd`/../:$PATH" make install
 
 FROM ubuntu:16.04
 MAINTAINER Shinichi Awamoto <sap.pcmail@gmail.com>
-COPY --from=build /newlib .
+RUN set -x \
+ && cd \
+ && apt clean \
+ && sed -i'~' -E "s@http://(..\.)?archive\.ubuntu\.com/ubuntu@http://pf.is.s.u-tokyo.ac.jp/~awamoto/apt-mirror/@g" /etc/apt/sources.list \
+ && apt update \
+ && apt install -y \
+                build-essential \
+ && apt clean \
+ && rm -rf /var/lib/apt/lists/* \
+ && apt -qy autoremove
+COPY --from=build /newlib /newlib
